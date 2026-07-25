@@ -54,13 +54,12 @@ function AnchoredIn8() {
             coaching.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <button
-              type="button"
-              disabled
+            <a
+              href="https://buy.stripe.com/test_7sY6oJ3Vk7LP87X9mTb7y00"
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] opacity-70"
             >
               Purchase Anchored In 8 — $135 <ArrowUpRight className="size-4" />
-            </button>
+            </a>
             <Link
               to="/anchored-in-8/preview"
               className="inline-flex items-center justify-center border border-foreground/20 px-8 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-foreground hover:text-background transition-colors"
@@ -131,13 +130,12 @@ function AnchoredIn8() {
               Placeholder price for the 8-week program. Final pricing can be
               adjusted before connecting Stripe.
             </p>
-            <button
-              type="button"
-              disabled
+            <a
+              href="https://buy.stripe.com/test_7sY6oJ3Vk7LP87X9mTb7y00"
               className="mt-8 inline-flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] opacity-70"
             >
               Purchase Anchored In 8 — $135 <ArrowUpRight className="size-4" />
-            </button>
+            </a>
           </div>
         </div>
       </section>
