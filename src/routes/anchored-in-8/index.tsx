@@ -55,7 +55,7 @@ function AnchoredIn8() {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <a
-              href="https://buy.stripe.com/test_7sY6oJ3Vk7LP87X9mTb7y00"
+              href="https://buy.stripe.com/test_14AdRbezY1nrfAp1Urb7y01"
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] opacity-70"
             >
               Purchase Anchored In 8 — $135 <ArrowUpRight className="size-4" />
@@ -131,7 +131,7 @@ function AnchoredIn8() {
               adjusted before connecting Stripe.
             </p>
             <a
-              href="https://buy.stripe.com/test_7sY6oJ3Vk7LP87X9mTb7y00"
+              href="https://buy.stripe.com/test_14AdRbezY1nrfAp1Urb7y01"
               className="mt-8 inline-flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] opacity-70"
             >
               Purchase Anchored In 8 — $135 <ArrowUpRight className="size-4" />
