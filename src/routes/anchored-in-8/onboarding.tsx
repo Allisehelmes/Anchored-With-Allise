@@ -19,6 +19,7 @@ function AnchoredIn8Onboarding() {
   const [submitError, setSubmitError] = useState("");
   const [wantsNutritionTargets, setWantsNutritionTargets] = useState("");
   const [sessionId, setSessionId] = useState("");
+  const [verificationReason, setVerificationReason] = useState("");
   const [verificationStatus, setVerificationStatus] = useState<"checking" | "verified" | "unverified" | "submitted">("checking");
 
   const verifyPurchase = async (checkoutSessionId: string) => {
@@ -30,6 +31,8 @@ function AnchoredIn8Onboarding() {
     if (!response.ok) return false;
 
     const data = await response.json();
+    console.info("Anchored In 8 verification response", data);
+    setVerificationReason(data.reason || "");
     return data.verified === true;
   };
 
@@ -38,6 +41,7 @@ function AnchoredIn8Onboarding() {
     setSessionId(checkoutSessionId);
 
     if (!checkoutSessionId) {
+      setVerificationReason("missing_session_id");
       setVerificationStatus("unverified");
       return;
     }
@@ -159,6 +163,11 @@ function AnchoredIn8Onboarding() {
               We couldn’t verify your Anchored In 8 purchase. Please return to
               checkout or contact Alli for help.
             </p>
+            {verificationReason && (
+              <p className="mt-4 text-xs text-muted-foreground">
+                Verification reason: {verificationReason}
+              </p>
+            )}
           </div>
         )}
 
