@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Check } from "lucide-react";
 
@@ -14,6 +14,12 @@ export const Route = createFileRoute("/thank-you")({
 });
 
 function ThankYou() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  if (pathname !== "/thank-you") {
+    return <Outlet />;
+  }
+
   return (
     <SiteShell>
       <section className="container-page py-32 text-center max-w-2xl">
