@@ -26,6 +26,7 @@ const products = [
     desc: "A complete beginner's guide to building strength, creating sustainable habits, and finally understanding what actually matters in fitness.",
     cover: rinseWashRepeatCover,
     price: "$18.99",
+    purchaseUrl: "https://buy.stripe.com/test_3cIfZj1Nc5DHfAp8iPb7y03",
   },
   {
     title: "The Anchored Journal",
@@ -74,9 +75,15 @@ function Shop() {
                 <p className="mt-4 text-sm text-muted-foreground leading-relaxed flex-1">{p.desc}</p>
                 <div className="mt-6 flex items-center justify-between">
                   {p.price ? <span className="font-serif text-2xl">{p.price}</span> : <span />}
-                  <button className="bg-primary text-primary-foreground px-6 py-3 text-[11px] uppercase tracking-[0.22em] hover:bg-sage-deep transition-colors">
-                    Purchase
-                  </button>
+                  {p.purchaseUrl ? (
+                    <a href={p.purchaseUrl} className="bg-primary text-primary-foreground px-6 py-3 text-[11px] uppercase tracking-[0.22em] hover:bg-sage-deep transition-colors">
+                      Purchase
+                    </a>
+                  ) : (
+                    <button className="bg-primary text-primary-foreground px-6 py-3 text-[11px] uppercase tracking-[0.22em] hover:bg-sage-deep transition-colors">
+                      Purchase
+                    </button>
+                  )}
                 </div>
               </div>
             </article>
