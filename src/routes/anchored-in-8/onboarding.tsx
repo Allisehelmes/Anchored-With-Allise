@@ -31,6 +31,7 @@ function AnchoredIn8Onboarding() {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [submitDiagnostic, setSubmitDiagnostic] = useState("");
   const [wantsNutritionTargets, setWantsNutritionTargets] = useState("");
   const [sessionId, setSessionId] = useState("");
   const [verificationReason, setVerificationReason] = useState("");
@@ -92,6 +93,7 @@ function AnchoredIn8Onboarding() {
 
     setSubmitting(true);
     setSubmitError("");
+    setSubmitDiagnostic("");
     let shouldResetSubmitting = true;
 
     try {
@@ -124,33 +126,58 @@ function AnchoredIn8Onboarding() {
       formData.set("_subject", "New Anchored In 8 Onboarding Questionnaire");
       formData.set("_replyto", String(formData.get("email") || ""));
 
+      const submittedFieldNames = Array.from(formData.keys());
+      let timedOut = false;
+      let responseStatus: number | null = null;
+      let responseBody = "";
+
       console.info("Anchored In 8 onboarding submit started", {
         endpoint: ONBOARDING_FORM_ENDPOINT,
+        submittedFieldNames,
       });
 
-      const response = await fetchWithTimeout(ONBOARDING_FORM_ENDPOINT, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      });
+      let response: Response;
+      try {
+        response = await fetchWithTimeout(ONBOARDING_FORM_ENDPOINT, {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+          },
+        });
+      } catch (error) {
+        timedOut = error instanceof DOMException && error.name === "AbortError";
+        throw new Error(timedOut ? "Formspree submission timed out" : "Formspree request failed");
+      }
+
+      responseStatus = response.status;
+      responseBody = await response.text();
 
       console.info("Anchored In 8 onboarding submit response", {
         endpoint: ONBOARDING_FORM_ENDPOINT,
-        status: response.status,
+        status: responseStatus,
+        timedOut,
+        responseBody,
       });
 
       if (!response.ok) {
-        throw new Error(`Formspree submission failed with status ${response.status}`);
+        throw new Error(`Formspree submission failed with status ${responseStatus}: ${responseBody}`);
       }
 
       const localResponse = Object.fromEntries(formData.entries());
-      const existing = JSON.parse(localStorage.getItem("anchoredIn8Responses") || "[]");
-      const submittedSessions = JSON.parse(localStorage.getItem("anchoredIn8SubmittedSessions") || "[]") as string[];
-      localStorage.setItem("anchoredIn8Responses", JSON.stringify([...existing, localResponse]));
-      localStorage.setItem("anchoredIn8LatestResponse", JSON.stringify(localResponse));
-      localStorage.setItem("anchoredIn8SubmittedSessions", JSON.stringify([...submittedSessions, sessionId]));
+
+      try {
+        const existing = JSON.parse(localStorage.getItem("anchoredIn8Responses") || "[]");
+        const submittedSessions = JSON.parse(localStorage.getItem("anchoredIn8SubmittedSessions") || "[]") as string[];
+        localStorage.setItem("anchoredIn8Responses", JSON.stringify([...existing, localResponse]));
+        localStorage.setItem("anchoredIn8LatestResponse", JSON.stringify(localResponse));
+        localStorage.setItem("anchoredIn8SubmittedSessions", JSON.stringify([...submittedSessions, sessionId]));
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown local backup error";
+        console.warn("Anchored In 8 local backup failed after Formspree success", {
+          message,
+        });
+      }
 
       shouldResetSubmitting = false;
       navigate({ to: "/anchored-in-8/confirmation" });
@@ -161,11 +188,19 @@ function AnchoredIn8Onboarding() {
         message,
       });
       setSubmitError("We couldn’t submit your onboarding form. Your answers have not been lost. Please try again or contact Alli for help.");
+      setSubmitDiagnostic(`Submission diagnostic: ${message}`);
     } finally {
       if (shouldResetSubmitting) {
         setSubmitting(false);
       }
     }
+  };
+
+  const handleInvalid = () => {
+    console.info("Anchored In 8 onboarding browser validation blocked submission", {
+      endpoint: ONBOARDING_FORM_ENDPOINT,
+    });
+    setSubmitDiagnostic("Submission diagnostic: browser validation blocked the request. Please complete the highlighted required fields.");
   };
 
   return (
@@ -212,7 +247,7 @@ function AnchoredIn8Onboarding() {
         )}
 
         {verificationStatus === "verified" && (
-        <form onSubmit={handleSubmit} className="mt-14 bg-sand/50 border border-border p-8 md:p-10 space-y-8">
+        <form onSubmit={handleSubmit} onInvalidCapture={handleInvalid} className="mt-14 bg-sand/50 border border-border p-8 md:p-10 space-y-8">
           <div className="grid md:grid-cols-2 gap-6">
             <Field label="Full Name" name="full_name" type="text" required />
             <Field label="Email" name="email" type="email" required />
@@ -286,6 +321,11 @@ function AnchoredIn8Onboarding() {
           {submitError && (
             <p className="text-sm text-destructive leading-relaxed" role="alert">
               {submitError}
+            </p>
+          )}
+          {submitDiagnostic && (
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {submitDiagnostic}
             </p>
           )}
 
