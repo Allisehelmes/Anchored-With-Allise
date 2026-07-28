@@ -32,7 +32,6 @@ export function Footer() {
               <li><Link to="/coaching" className="hover:text-foreground">1:1 Coaching</Link></li>
               <li><Link to="/shop" className="hover:text-foreground">Shop Resources</Link></li>
               <li><Link to="/results" className="hover:text-foreground">Client Results</Link></li>
-              <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
             </ul>
           </div>
 

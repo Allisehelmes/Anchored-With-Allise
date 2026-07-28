@@ -14,7 +14,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as MeetYourCoachRouteImport } from './routes/meet-your-coach'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CoachingRouteImport } from './routes/coaching'
 import { Route as ClientPortalRouteImport } from './routes/client-portal'
 import { Route as AnchoredIn8RouteImport } from './routes/anchored-in-8'
@@ -49,11 +48,6 @@ const ResultsRoute = ResultsRouteImport.update({
 const MeetYourCoachRoute = MeetYourCoachRouteImport.update({
   id: '/meet-your-coach',
   path: '/meet-your-coach',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoachingRoute = CoachingRouteImport.update({
@@ -112,7 +106,6 @@ export interface FileRoutesByFullPath {
   '/anchored-in-8': typeof AnchoredIn8RouteWithChildren
   '/client-portal': typeof ClientPortalRoute
   '/coaching': typeof CoachingRoute
-  '/contact': typeof ContactRoute
   '/meet-your-coach': typeof MeetYourCoachRoute
   '/results': typeof ResultsRoute
   '/shop': typeof ShopRoute
@@ -129,7 +122,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/client-portal': typeof ClientPortalRoute
   '/coaching': typeof CoachingRoute
-  '/contact': typeof ContactRoute
   '/meet-your-coach': typeof MeetYourCoachRoute
   '/results': typeof ResultsRoute
   '/shop': typeof ShopRoute
@@ -148,7 +140,6 @@ export interface FileRoutesById {
   '/anchored-in-8': typeof AnchoredIn8RouteWithChildren
   '/client-portal': typeof ClientPortalRoute
   '/coaching': typeof CoachingRoute
-  '/contact': typeof ContactRoute
   '/meet-your-coach': typeof MeetYourCoachRoute
   '/results': typeof ResultsRoute
   '/shop': typeof ShopRoute
@@ -168,7 +159,6 @@ export interface FileRouteTypes {
     | '/anchored-in-8'
     | '/client-portal'
     | '/coaching'
-    | '/contact'
     | '/meet-your-coach'
     | '/results'
     | '/shop'
@@ -185,7 +175,6 @@ export interface FileRouteTypes {
     | '/'
     | '/client-portal'
     | '/coaching'
-    | '/contact'
     | '/meet-your-coach'
     | '/results'
     | '/shop'
@@ -203,7 +192,6 @@ export interface FileRouteTypes {
     | '/anchored-in-8'
     | '/client-portal'
     | '/coaching'
-    | '/contact'
     | '/meet-your-coach'
     | '/results'
     | '/shop'
@@ -222,7 +210,6 @@ export interface RootRouteChildren {
   AnchoredIn8Route: typeof AnchoredIn8RouteWithChildren
   ClientPortalRoute: typeof ClientPortalRoute
   CoachingRoute: typeof CoachingRoute
-  ContactRoute: typeof ContactRoute
   MeetYourCoachRoute: typeof MeetYourCoachRoute
   ResultsRoute: typeof ResultsRoute
   ShopRoute: typeof ShopRoute
@@ -265,13 +252,6 @@ declare module '@tanstack/react-router' {
       path: '/meet-your-coach'
       fullPath: '/meet-your-coach'
       preLoaderRoute: typeof MeetYourCoachRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coaching': {
@@ -384,7 +364,6 @@ const rootRouteChildren: RootRouteChildren = {
   AnchoredIn8Route: AnchoredIn8RouteWithChildren,
   ClientPortalRoute: ClientPortalRoute,
   CoachingRoute: CoachingRoute,
-  ContactRoute: ContactRoute,
   MeetYourCoachRoute: MeetYourCoachRoute,
   ResultsRoute: ResultsRoute,
   ShopRoute: ShopRoute,

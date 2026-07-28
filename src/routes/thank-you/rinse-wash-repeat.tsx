@@ -26,9 +26,9 @@ function RinseWashRepeatThankYou() {
           Your guide is ready.
         </h1>
         <p className="mt-6 text-muted-foreground leading-relaxed">
-          Thank you for purchasing Rinse. Wash. Repeat. Click below to download
-          your guide, and be sure to save a copy to your device so you can come
-          back to it anytime.
+          Thank you for your purchase! Click the button below to download your
+          guide. Be sure to save a copy to your device so you can come back to
+          it whenever you need.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <a
@@ -36,7 +36,7 @@ function RinseWashRepeatThankYou() {
             download="Rinse. Wash. Repeat.pdf"
             className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-sage-deep transition-colors"
           >
-            Download Rinse. Wash. Repeat. <Download className="size-4" />
+            Download Your Guide <Download className="size-4" />
           </a>
           <Link
             to="/shop"

@@ -2,6 +2,20 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteShell } from "@/components/site/SiteShell";
 
+const ONBOARDING_FORM_ENDPOINT = "https://formspree.io/f/mnjeoqnw";
+const REQUEST_TIMEOUT_MS = 15000;
+
+async function fetchWithTimeout(url: string, init: RequestInit = {}) {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
 export const Route = createFileRoute("/anchored-in-8/onboarding")({
   head: () => ({
     meta: [
@@ -23,7 +37,7 @@ function AnchoredIn8Onboarding() {
   const [verificationStatus, setVerificationStatus] = useState<"checking" | "verified" | "unverified" | "submitted">("checking");
 
   const verifyPurchase = async (checkoutSessionId: string) => {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `/.netlify/functions/verify-anchored-in-8-purchase?session_id=${encodeURIComponent(checkoutSessionId)}`,
       { headers: { Accept: "application/json" } }
     );
@@ -78,40 +92,43 @@ function AnchoredIn8Onboarding() {
 
     setSubmitting(true);
     setSubmitError("");
-
-    if (!sessionId || verificationStatus !== "verified") {
-      setSubmitError("We couldn’t verify your Anchored In 8 purchase. Please return to checkout or contact Alli for help.");
-      setSubmitting(false);
-      return;
-    }
-
-    const verified = await verifyPurchase(sessionId);
-
-    if (!verified) {
-      setVerificationStatus("unverified");
-      setSubmitting(false);
-      return;
-    }
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const wantsTargets = formData.get("nutrition_targets_preference") === "Yes, I'd like calories and macros calculated.";
-
-    if (!wantsTargets) {
-      formData.delete("nutrition_biological_sex");
-      formData.delete("nutrition_height");
-      formData.delete("nutrition_current_weight");
-      formData.delete("nutrition_goal_weight");
-      formData.delete("activity_level");
-    }
-
-    formData.set("submitted_at", new Date().toISOString());
-    formData.set("stripe_checkout_session_id", sessionId);
-    formData.set("_subject", "New Anchored In 8 Onboarding Questionnaire");
-    formData.set("_replyto", String(formData.get("email") || ""));
+    let shouldResetSubmitting = true;
 
     try {
-      const response = await fetch("https://formspree.io/f/mnjeoqnw", {
+      if (!sessionId || verificationStatus !== "verified") {
+        setSubmitError("We couldn’t verify your Anchored In 8 purchase. Please return to checkout or contact Alli for help.");
+        return;
+      }
+
+      const verified = await verifyPurchase(sessionId);
+
+      if (!verified) {
+        setVerificationStatus("unverified");
+        return;
+      }
+
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const wantsTargets = formData.get("nutrition_targets_preference") === "Yes, I'd like calories and macros calculated.";
+
+      if (!wantsTargets) {
+        formData.delete("nutrition_biological_sex");
+        formData.delete("nutrition_height");
+        formData.delete("nutrition_current_weight");
+        formData.delete("nutrition_goal_weight");
+        formData.delete("activity_level");
+      }
+
+      formData.set("submitted_at", new Date().toISOString());
+      formData.set("stripe_checkout_session_id", sessionId);
+      formData.set("_subject", "New Anchored In 8 Onboarding Questionnaire");
+      formData.set("_replyto", String(formData.get("email") || ""));
+
+      console.info("Anchored In 8 onboarding submit started", {
+        endpoint: ONBOARDING_FORM_ENDPOINT,
+      });
+
+      const response = await fetchWithTimeout(ONBOARDING_FORM_ENDPOINT, {
         method: "POST",
         body: formData,
         headers: {
@@ -119,8 +136,13 @@ function AnchoredIn8Onboarding() {
         },
       });
 
+      console.info("Anchored In 8 onboarding submit response", {
+        endpoint: ONBOARDING_FORM_ENDPOINT,
+        status: response.status,
+      });
+
       if (!response.ok) {
-        throw new Error("Formspree submission failed");
+        throw new Error(`Formspree submission failed with status ${response.status}`);
       }
 
       const localResponse = Object.fromEntries(formData.entries());
@@ -130,10 +152,19 @@ function AnchoredIn8Onboarding() {
       localStorage.setItem("anchoredIn8LatestResponse", JSON.stringify(localResponse));
       localStorage.setItem("anchoredIn8SubmittedSessions", JSON.stringify([...submittedSessions, sessionId]));
 
+      shouldResetSubmitting = false;
       navigate({ to: "/anchored-in-8/confirmation" });
-    } catch {
-      setSubmitError("Something went wrong while submitting your questionnaire. Please try again or email me directly.");
-      setSubmitting(false);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown onboarding submission error";
+      console.error("Anchored In 8 onboarding submit failed", {
+        endpoint: ONBOARDING_FORM_ENDPOINT,
+        message,
+      });
+      setSubmitError("We couldn’t submit your onboarding form. Your answers have not been lost. Please try again or contact Alli for help.");
+    } finally {
+      if (shouldResetSubmitting) {
+        setSubmitting(false);
+      }
     }
   };
 

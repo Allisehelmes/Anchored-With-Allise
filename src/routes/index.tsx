@@ -90,7 +90,6 @@ function Home() {
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <Link
                 to="/coaching"
-                hash="apply"
                 className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-sage-deep transition-colors"
               >
                 Apply for 1:1 Coaching <ArrowUpRight className="size-4" />

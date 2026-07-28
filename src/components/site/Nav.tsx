@@ -10,7 +10,6 @@ const links = [
   { to: "/shop", label: "Shop Resources", hash: undefined },
   { to: "/results", label: "Client Stories", hash: undefined },
   { to: "/client-portal", label: "Client Portal", hash: undefined },
-  { to: "/contact", label: "Contact", hash: undefined },
 ] as const;
 
 export function Nav() {
@@ -31,7 +30,7 @@ export function Nav() {
         </Link>
 
         <div className="hidden lg:flex items-center gap-9 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/70">
-          {links.slice(1, -1).map((l) => (
+          {links.slice(1).map((l) => (
             <Link
               key={`${l.to}-${l.hash ?? l.label}`}
               to={l.to}
