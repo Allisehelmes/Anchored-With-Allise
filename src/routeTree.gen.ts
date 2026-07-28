@@ -21,6 +21,7 @@ import { Route as AnchoredIn8RouteImport } from './routes/anchored-in-8'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnchoredIn8IndexRouteImport } from './routes/anchored-in-8/index'
 import { Route as ThankYouRinseWashRepeatRouteImport } from './routes/thank-you/rinse-wash-repeat'
+import { Route as ThankYouAnchoredJournalRouteImport } from './routes/thank-you/anchored-journal'
 import { Route as AnchoredIn8PreviewRouteImport } from './routes/anchored-in-8/preview'
 import { Route as AnchoredIn8OnboardingRouteImport } from './routes/anchored-in-8/onboarding'
 import { Route as AnchoredIn8ConfirmationRouteImport } from './routes/anchored-in-8/confirmation'
@@ -85,6 +86,11 @@ const ThankYouRinseWashRepeatRoute = ThankYouRinseWashRepeatRouteImport.update({
   path: '/rinse-wash-repeat',
   getParentRoute: () => ThankYouRoute,
 } as any)
+const ThankYouAnchoredJournalRoute = ThankYouAnchoredJournalRouteImport.update({
+  id: '/anchored-journal',
+  path: '/anchored-journal',
+  getParentRoute: () => ThankYouRoute,
+} as any)
 const AnchoredIn8PreviewRoute = AnchoredIn8PreviewRouteImport.update({
   id: '/preview',
   path: '/preview',
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/anchored-in-8/confirmation': typeof AnchoredIn8ConfirmationRoute
   '/anchored-in-8/onboarding': typeof AnchoredIn8OnboardingRoute
   '/anchored-in-8/preview': typeof AnchoredIn8PreviewRoute
+  '/thank-you/anchored-journal': typeof ThankYouAnchoredJournalRoute
   '/thank-you/rinse-wash-repeat': typeof ThankYouRinseWashRepeatRoute
   '/anchored-in-8/': typeof AnchoredIn8IndexRoute
 }
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/anchored-in-8/confirmation': typeof AnchoredIn8ConfirmationRoute
   '/anchored-in-8/onboarding': typeof AnchoredIn8OnboardingRoute
   '/anchored-in-8/preview': typeof AnchoredIn8PreviewRoute
+  '/thank-you/anchored-journal': typeof ThankYouAnchoredJournalRoute
   '/thank-you/rinse-wash-repeat': typeof ThankYouRinseWashRepeatRoute
   '/anchored-in-8': typeof AnchoredIn8IndexRoute
 }
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/anchored-in-8/confirmation': typeof AnchoredIn8ConfirmationRoute
   '/anchored-in-8/onboarding': typeof AnchoredIn8OnboardingRoute
   '/anchored-in-8/preview': typeof AnchoredIn8PreviewRoute
+  '/thank-you/anchored-journal': typeof ThankYouAnchoredJournalRoute
   '/thank-you/rinse-wash-repeat': typeof ThankYouRinseWashRepeatRoute
   '/anchored-in-8/': typeof AnchoredIn8IndexRoute
 }
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/anchored-in-8/confirmation'
     | '/anchored-in-8/onboarding'
     | '/anchored-in-8/preview'
+    | '/thank-you/anchored-journal'
     | '/thank-you/rinse-wash-repeat'
     | '/anchored-in-8/'
   fileRoutesByTo: FileRoutesByTo
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/anchored-in-8/confirmation'
     | '/anchored-in-8/onboarding'
     | '/anchored-in-8/preview'
+    | '/thank-you/anchored-journal'
     | '/thank-you/rinse-wash-repeat'
     | '/anchored-in-8'
   id:
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/anchored-in-8/confirmation'
     | '/anchored-in-8/onboarding'
     | '/anchored-in-8/preview'
+    | '/thank-you/anchored-journal'
     | '/thank-you/rinse-wash-repeat'
     | '/anchored-in-8/'
   fileRoutesById: FileRoutesById
@@ -304,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThankYouRinseWashRepeatRouteImport
       parentRoute: typeof ThankYouRoute
     }
+    '/thank-you/anchored-journal': {
+      id: '/thank-you/anchored-journal'
+      path: '/anchored-journal'
+      fullPath: '/thank-you/anchored-journal'
+      preLoaderRoute: typeof ThankYouAnchoredJournalRouteImport
+      parentRoute: typeof ThankYouRoute
+    }
     '/anchored-in-8/preview': {
       id: '/anchored-in-8/preview'
       path: '/preview'
@@ -347,10 +366,12 @@ const AnchoredIn8RouteWithChildren = AnchoredIn8Route._addFileChildren(
 )
 
 interface ThankYouRouteChildren {
+  ThankYouAnchoredJournalRoute: typeof ThankYouAnchoredJournalRoute
   ThankYouRinseWashRepeatRoute: typeof ThankYouRinseWashRepeatRoute
 }
 
 const ThankYouRouteChildren: ThankYouRouteChildren = {
+  ThankYouAnchoredJournalRoute: ThankYouAnchoredJournalRoute,
   ThankYouRinseWashRepeatRoute: ThankYouRinseWashRepeatRoute,
 }
 
