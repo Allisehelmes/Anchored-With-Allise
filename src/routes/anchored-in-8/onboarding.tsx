@@ -89,6 +89,9 @@ function AnchoredIn8Onboarding() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
     if (submitting) return;
 
     setSubmitting(true);
@@ -109,8 +112,6 @@ function AnchoredIn8Onboarding() {
         return;
       }
 
-      const form = e.currentTarget;
-      const formData = new FormData(form);
       const wantsTargets = formData.get("nutrition_targets_preference") === "Yes, I'd like calories and macros calculated.";
 
       if (!wantsTargets) {
