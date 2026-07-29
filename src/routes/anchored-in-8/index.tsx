@@ -55,7 +55,7 @@ function AnchoredIn8() {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <a
-              href="https://buy.stripe.com/test_14AdRbezY1nrfAp1Urb7y01"
+              href="https://buy.stripe.com/eVqfZj4Zo5DH73T9mTb7y02"
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] opacity-70"
             >
               Purchase Anchored In 8 — $135 <ArrowUpRight className="size-4" />
@@ -67,10 +67,6 @@ function AnchoredIn8() {
               Preview Onboarding
             </Link>
           </div>
-          <p className="mt-4 text-xs text-muted-foreground">
-            Placeholder Stripe Payment Link. This will be connected once the
-            real Stripe Payment Link is ready.
-          </p>
         </div>
         <div className="lg:col-span-5">
           <img src={anchoredIn8Squat} alt="Anchored In 8" className="w-full aspect-[4/5] object-cover object-center" />
@@ -131,7 +127,7 @@ function AnchoredIn8() {
               adjusted before connecting Stripe.
             </p>
             <a
-              href="https://buy.stripe.com/test_14AdRbezY1nrfAp1Urb7y01"
+              href="https://buy.stripe.com/eVqfZj4Zo5DH73T9mTb7y02"
               className="mt-8 inline-flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-[11px] uppercase tracking-[0.22em] opacity-70"
             >
               Purchase Anchored In 8 — $135 <ArrowUpRight className="size-4" />

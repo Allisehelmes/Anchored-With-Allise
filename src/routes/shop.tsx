@@ -26,7 +26,7 @@ const products = [
     desc: "A complete beginner's guide to building strength, creating sustainable habits, and finally understanding what actually matters in fitness.",
     cover: rinseWashRepeatCover,
     price: "$18.99",
-    purchaseUrl: "https://buy.stripe.com/test_3cIfZj1Nc5DHfAp8iPb7y03",
+    purchaseUrl: "https://buy.stripe.com/7sY6oJ3Vk7LP87X9mTb7y00",
   },
   {
     title: "The Anchored Journal",
@@ -34,7 +34,7 @@ const products = [
     desc: "Build a stronger mindset, healthier habits, and a more grounded relationship with fitness through 100 guided reflections designed to help you create lasting change from the inside out.",
     cover: anchoredJournalCover,
     price: "$10.99",
-    purchaseUrl: "https://buy.stripe.com/test_6oU6oJ3Vk9TX2NDgPlb7y04",
+    purchaseUrl: "https://buy.stripe.com/14AdRbezY1nrfAp1Urb7y01",
   },
   {
     title: "The Travel Survival Guide",

@@ -25,9 +25,10 @@ function AnchoredIn8Confirmation() {
           Thank you, your program will be delivered to your email within 3 business days.
         </h1>
         <p className="mt-6 text-muted-foreground leading-relaxed">
-          Your questionnaire has been saved in the temporary local placeholder
-          storage for now. When Stripe and backend storage are connected, this
-          page can stay as the final confirmation step.
+          Your onboarding questionnaire has been received successfully. I'll
+          review everything you've shared and use it to build a program that's
+          tailored to your goals, experience, schedule, and available equipment.
+          If I need any additional information, I'll reach out by email.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
